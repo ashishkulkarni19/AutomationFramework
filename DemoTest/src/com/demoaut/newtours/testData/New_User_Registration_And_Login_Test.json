@@ -1,0 +1,14 @@
+{
+	"firstName" : "Opesydra",
+	"lastName" : "Uhet",
+	"phone" : 1234567890,
+    "email" : "Esasgwat@tco.com",
+    "address" : "India 1245",
+    "city" : "XYN",
+    "state" : "ABC",
+    "postalCode" : 123456,
+    "country" : "INDIA",
+    "userName" : "optest",
+    "password" : "P@$$W00rd",
+    "confirmPassword" : "P@$$W00rd"
+}
