@@ -1,1 +1,15 @@
-/bin/
+
+test-output/
+target/
+bin/
+RemoteSystemsTempFiles/
+.settings/
+.idea/
+
+
+velocity.log*
+selenium.log*
+
+
+
+**/.DS_STORE
