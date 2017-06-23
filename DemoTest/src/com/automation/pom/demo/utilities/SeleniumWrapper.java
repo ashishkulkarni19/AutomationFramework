@@ -1,4 +1,6 @@
-package com.demoaut.newtours.utilities;
+package com.automation.pom.demo.utilities;
+
+import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -6,7 +8,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /*
  * SeleniumWrapper class provide all method related to selenium.
@@ -16,6 +22,8 @@ public class SeleniumWrapper {
 	public static WebDriver driver = null;
 	
 	public static String currentDir = System.getProperty("user.dir");
+	
+	public static int TIMEOUT =30;
 	
 	public void setWebDriver(String browserName)
 	{
@@ -39,16 +47,9 @@ public class SeleniumWrapper {
 	{
 		try
 		{
+			this.waitForElementToBePresent(locator);
 			WebElement webEle = driver.findElement(By.xpath(locator));
-			
-			if(webEle.isDisplayed())
-			{
-				webEle.click();
-			}
-			else
-			{
-				System.out.println("Element not displyed on UI for locator: " + locator);
-			}
+			webEle.click();
 		}
 		catch(Exception e)
 		{
@@ -62,6 +63,7 @@ public class SeleniumWrapper {
 		try
 		{
 			driver.get(url);
+			driver.manage().window().maximize();
 		}
 		catch(Exception e)
 		{
@@ -109,7 +111,15 @@ public class SeleniumWrapper {
 	{
 		try
 		{
-			return driver.findElement(By.xpath(locator)).isDisplayed();
+			if( driver.findElement(By.xpath(locator)).isDisplayed())
+			{
+				return true;
+			}
+			else
+			{	
+				waitForElementToBeDisplayed(locator);
+				return driver.findElement(By.xpath(locator)).isDisplayed();
+			}	
 		}
 		catch(Exception e)
 		{
@@ -132,6 +142,82 @@ public class SeleniumWrapper {
 		}
 	}
 	
+	public void waitForElementToBeDisplayed(String locator)
+	{
+		WebDriverWait wait = new WebDriverWait(driver, TIMEOUT);
+		
+	  try 
+		{
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to wait for elemet : "+ e.getMessage());
+		}
+		
+	}
+
+	public void waitForElementToBePresent(String locator)
+	{
+		WebDriverWait wait = new WebDriverWait(driver, TIMEOUT);
+		
+	  try 
+		{
+			wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(locator)));
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to wait for elemet : "+ e.getMessage());
+		}
+		
+	}
+
+	public WebElement findElement(String locator)
+	{
+		WebElement element;
+		try 
+		{
+			this.waitForElementToBeDisplayed(locator);
+			element = driver.findElement(By.xpath(locator));
+			return element;
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to find element : "+ e.getMessage());
+		}
+		
+	}
 	
+	public List<WebElement> findAllElements(String locator)
+	{
+		List <WebElement>elements ;
+		try 
+		{
+			this.waitForElementToBeDisplayed(locator);
+			elements = driver.findElements(By.xpath(locator));
+			return elements;
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to find element : "+ e.getMessage());
+		}
+	}	
+
+	public void hoverOnElement(String locator)
+	{
+		try 
+		{
+			Actions act = new Actions(driver);
+			act.moveToElement(this.findElement(locator));
+			act.build().perform();
+			
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to hover to element : "+ e.getMessage());
+		}
+	}
+	
+	public String getText(String locator)
+	{
+		try 
+		{
+			this.waitForElementToBePresent(locator);			
+			return driver.findElement(By.xpath(locator)).getText().toString().trim();
+			
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to get text of the element : "+ e.getMessage());
+		}
+	}
 	
 }

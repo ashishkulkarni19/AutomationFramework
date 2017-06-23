@@ -1,4 +1,4 @@
-package com.demoaut.newtours.utilities;
+package com.automation.pom.demo.utilities;
 
 import java.io.FileReader;
 
@@ -18,7 +18,7 @@ public class TestDataReader
 
         try 
         { 
-            Object obj = parser.parse(new FileReader(currentDir+"\\src\\com\\demoaut\\newtours\\testData\\"+fileName+".json"));
+            Object obj = parser.parse(new FileReader(currentDir+"\\src\\com\\automation\\pom\\demo\\testData\\"+fileName+".json"));
 
             return  (JsonObject) obj;
         }

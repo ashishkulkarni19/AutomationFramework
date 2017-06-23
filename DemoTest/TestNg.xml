@@ -1,11 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 <!-- Provide browserName as ie, chrome or firefox -->
-<suite name="Mercury Tours Test">
+<suite name="AssignmentSuite">
 	<parameter name="browserName" value="chrome" />
-	<test name="New-User-Regsitration-And-Login">
-		<parameter name="URL" value="http://newtours.demoaut.com" />
+	<test name="Assignment2">
 		<classes>
-			<class name="com.demoaut.newtours.scripts.New_User_Registration_And_Login_Test" />
+			<class name="com.automation.pom.demo.tests.Assignment2" />
 		</classes>
 	</test>
 </suite>
